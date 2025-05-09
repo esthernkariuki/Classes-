@@ -92,7 +92,7 @@ function Order(customer, items, status) {
   this.status = status;
 }
 Order.prototype.totalCost = function() {
-  return this.items.reduce((sum, i) => sum + i.quantity * i.unitPrice, 0);
+  return this.items.reduce((sum, item) => sum + item.quantity * item.unitPrice, 0);
 };
 Order.prototype.updateStatus = function(paid) {
   this.status = paid ? "paid" : "pending";
@@ -106,16 +106,18 @@ Order.prototype.categorizeUrgency = function() {
       this.totalCost() > 500 ? console.log("High-value") : console.log("medium-value");
       break;
     default:
-      console.log("unknown");
+      console.log("unknown status");
   }
 };
 
-const order = new Order({name:"Mercy",email:"mercy@gmail.com"},{productname:"washingPowder",Quantity:40,unitPrice:300},"Highvalue")
+const order = new Order({name:"Mercy",email:"mercy@gmail.com"},
+  [{productname:"washingPowder",Quantity:40,unitPrice:300}]
+  ,"pending");
 
 
 console.log(order.totalCost());
-console.log(order.updateStatus());
-console.log(order.categorizeUrgency())
+console.log(order.updateStatus(true));
+order.categorizeUrgency()
 
 
 
